@@ -29,7 +29,7 @@ spec:
             name: conjur-access-token
             readOnly: true
 
-        - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client
+        - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client:latest
           imagePullPolicy: Always
           name: authenticator
           env:

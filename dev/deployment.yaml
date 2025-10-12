@@ -18,17 +18,17 @@ spec:
       serviceAccountName: test-app-sa
       containers:
         - name: test-app
-          image: registry.gcloud101.com/test-app:001
+          image: registry.gcloud101.com/test-app:002
           imagePullPolicy: Always
           env:
             - name: CONJUR_AUTHN_TOKEN_FILE
-              value: /run/conjur/conjur-access-token
+              value: /run/conjur/access-token
           envFrom:
           - configMapRef:
               name: conjur-connect
           volumeMounts:
           - mountPath: /run/conjur
-            name: conjur-access-token
+            name: access-token
             readOnly: true
 
         - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client:latest
@@ -50,10 +50,10 @@ spec:
                 name: conjur-connect
           volumeMounts:
             - mountPath: /run/conjur
-              name: conjur-access-token
+              name: access-token
       imagePullSecrets:
         - name: gcloud101cred
       volumes:
-        - name: conjur-access-token
+        - name: access-token
           emptyDir:
             medium: Memory

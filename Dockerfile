@@ -27,7 +27,7 @@ RUN chmod +x /app/retrieve_conjur_secret.sh
 #     CONJUR_AUTHN_TOKEN_FILE="/run/conjur/access-token" \
 #     VAR_ID="secrets/test-variable"
 
-ENV CONJUR_AUTHN_TOKEN_FILE="/run/conjur/conjur-access-token"
+ENV CONJUR_AUTHN_TOKEN_FILE="/run/conjur/access-token"
 
 # Run the script by default
 ENTRYPOINT ["/app/retrieve_conjur_secret.sh"]

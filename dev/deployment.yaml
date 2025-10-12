@@ -19,6 +19,7 @@ spec:
       containers:
         - name: test-app
           image: registry.gcloud101.com/test-app:latest
+          imagePullPolicy: Always
           env:
             - name: CONJUR_AUTHN_TOKEN_FILE
               value: /run/conjur/conjur-access-token

@@ -3,7 +3,26 @@
 # name of secret to retrieve from Conjur
 VAR_ID=secrets/test-variable
 
+# Wait timeout (seconds)
+WAIT_TIMEOUT=30
+SLEEP_INTERVAL=1
+
 main() {
+  echo "Waiting for Conjur token file at: $CONJUR_AUTHN_TOKEN_FILE"
+
+  # Wait until token file exists or timeout
+  local waited=0
+  while [ ! -f "$CONJUR_AUTHN_TOKEN_FILE" ]; do
+    if [ "$waited" -ge "$WAIT_TIMEOUT" ]; then
+      echo "Error: Timeout waiting for token file: $CONJUR_AUTHN_TOKEN_FILE" >&2
+      exit 1
+    fi
+    sleep "$SLEEP_INTERVAL"
+    waited=$((waited + SLEEP_INTERVAL))
+  done
+
+  echo "Token file found after ${waited}s."
+  
   CONT_SESSION_TOKEN=$(cat $CONJUR_AUTHN_TOKEN_FILE | base64 | tr -d '\r\n')
 
   urlify "$VAR_ID"

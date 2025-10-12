@@ -21,7 +21,7 @@ spec:
           image: registry.gcloud101.com/test-app:latest
           env:
             - name: CONJUR_AUTHN_TOKEN_FILE
-              value: /run/conjur/access-token
+              value: /run/conjur/conjur-access-token
           envFrom:
           - configMapRef:
               name: conjur-connect

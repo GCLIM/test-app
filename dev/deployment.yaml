@@ -18,11 +18,13 @@ spec:
       serviceAccountName: test-app-sa
       containers:
         - name: test-app
-          image: registry.gcloud101.com/test-app:003
+          image: registry.gcloud101.com/test-app:004
           imagePullPolicy: Always
           env:
             - name: CONJUR_AUTHN_TOKEN_FILE
               value: /run/conjur/access-token
+            - name: VAR_ID
+              value: secrets/test-variable
           envFrom:
           - configMapRef:
               name: conjur-connect

@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Name of secret to retrieve from Conjur
-VAR_ID="secrets/test-variable"
-
 # Wait timeout (seconds) for the token file
 WAIT_TIMEOUT=30
 SLEEP_INTERVAL=1
 
 # Track previous token for change detection
 PREV_TOKEN=""
+FIRST_READ=true
 
 main_loop() {
   while true; do
@@ -29,7 +27,12 @@ main_loop() {
 
     # Check if token changed
     if [ "$CONT_SESSION_TOKEN" != "$PREV_TOKEN" ]; then
-      echo "$(date '+%Y-%m-%d %H:%M:%S') - Conjur access token has changed!"
+      if [ "$FIRST_READ" = true ]; then
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - Conjur access token has been read from $CONJUR_AUTHN_TOKEN_FILE"
+        FIRST_READ=false
+      else
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - Conjur access token has changed!"
+      fi
       PREV_TOKEN="$CONT_SESSION_TOKEN"
     fi
 

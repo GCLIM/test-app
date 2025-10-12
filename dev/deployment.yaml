@@ -18,7 +18,7 @@ spec:
       serviceAccountName: test-app-sa
       containers:
         - name: test-app
-          image: registry.gcloud101.com/test-app:004
+          image: registry.gcloud101.com/test-app:005
           imagePullPolicy: Always
           env:
             - name: CONJUR_AUTHN_TOKEN_FILE

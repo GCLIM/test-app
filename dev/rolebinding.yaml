@@ -15,8 +15,8 @@ metadata:
     conjur.org/name: "conjur-rolebinding"
 subjects:
 - kind: ServiceAccount
-  name: test-app-sa
-  namespace: test-app-namespace
+  name: conjur-serviceaccount
+  namespace: cyberark-conjur
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole

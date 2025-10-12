@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test-app
+  name: test-app
+  namespace: test-app-namespace
+spec:
+  selector:
+    matchLabels:
+      app: test-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-app
+    spec:
+      serviceAccountName: test-app-sa
+      containers:
+        - name: test-app
+          image: registry.gcloud101.com/my-sample-app
+          ports:
+            - containerPort: 8080
+          envFrom:
+          - configMapRef:
+              name: conjur-connect
+          volumeMounts:
+          - mountPath: /run/conjur
+            name: conjur-access-token
+            readOnly: true
+
+        - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client
+          imagePullPolicy: Always
+          name: authenticator
+          env:
+            - name: CONJUR_AUTHN_LOGIN
+              value: host/apps/authn-k8s/test-app
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: test-app-namespace
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: conjur-connect
+          volumeMounts:
+            - mountPath: /run/conjur
+              name: conjur-access-token
+      imagePullSecrets:
+        - name: gcloud101cred
+      volumes:
+        - name: conjur-access-token
+          emptyDir:
+            medium: Memory

@@ -2,7 +2,7 @@
 FROM alpine:3.20
 
 # Metadata
-LABEL maintainer="GChuan Lim" \
+LABEL maintainer="GC Lim" \
       description="Container to retrieve a secret from CyberArk Conjur using a Bash script."
 
 # Install required packages
@@ -20,14 +20,6 @@ COPY retrieve_conjur_secret.sh /app/retrieve_conjur_secret.sh
 
 # Make it executable
 RUN chmod +x /app/retrieve_conjur_secret.sh
-
-# Default environment variables (can be overridden at runtime)
-# ENV CONJUR_APPLIANCE_URL="https://conjur01.gcloud101.com" \
-#     CONJUR_ACCOUNT="default" \
-#     CONJUR_AUTHN_TOKEN_FILE="/run/conjur/access-token" \
-#     VAR_ID="secrets/test-variable"
-
-ENV CONJUR_AUTHN_TOKEN_FILE="/run/conjur/access-token"
 
 # Run the script by default
 ENTRYPOINT ["/app/retrieve_conjur_secret.sh"]

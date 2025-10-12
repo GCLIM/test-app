@@ -1,0 +1,66 @@
+---
+# Source: conjur-config-namespace-prep/templates/conjur_connect_configmap.yaml
+# The Conjur Connection ConfigMap contains references to Conjur credentials,
+# taken from the "Golden ConfigMap". These can be used to enable Conjur
+# authentication for applications to retrieve secrets securely.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: conjur-connect
+  labels:
+    app.kubernetes.io/name: "conjur-connect-configmap"
+    app.kubernetes.io/instance: "conjur-default-configmap"
+    app.kubernetes.io/part-of: "conjur-config"
+    conjur.org/name: "conjur-connect-configmap"
+data:
+  CONJUR_ACCOUNT: conjur_account
+  CONJUR_APPLIANCE_URL: https://conjur-dev-leader.gcloud101.com
+  CONJUR_AUTHN_URL: https://conjur-dev-leader.gcloud101.com/authn-k8s/dev-cluster
+  CONJUR_SSL_CERTIFICATE: |- 
+    -----BEGIN CERTIFICATE-----
+    MIIDtzCCAp+gAwIBAgIVAMK0xTLTR1mBzWnZeXw9tC5K3JIvMA0GCSqGSIb3DQEB
+    CwUAMFcxFzAVBgNVBAoMDmNvbmp1cl9hY2NvdW50MRIwEAYDVQQLDAlDb25qdXIg
+    Q0ExKDAmBgNVBAMMH2Nvbmp1ci1kZXYtbGVhZGVyLmdjbG91ZDEwMS5jb20wHhcN
+    MjUxMDExMDcxMjExWhcNMzUxMDA5MDcxMjExWjAqMSgwJgYDVQQDDB9jb25qdXIt
+    ZGV2LWxlYWRlci5nY2xvdWQxMDEuY29tMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+    MIIBCgKCAQEAk9e5MiDQRtyuwk71pucuDXFIsrzvNZYEUTFWU3oCTGtzCFKTC9KE
+    frBhGV6UvkdTgX2vI+beGv5dAEOmwZ1/k5JwCUR311Q2qzHREDZar/7P2GjkctMC
+    N4IpM3Nh+mXWA2eHoOZSR5I/W6xlYDRtHvOxArNPGTo5fV08juNOkdJquIw6BlWZ
+    Q0+68G5NEaAgnj0BbN3nVxZVXjmLjxMf98NkDC/horvO5cjKpLSFsyC9tNISi3uY
+    UZPwHy880Md2OZQRzTclo1tqugvrKCta6WmkspjIDLwkneAiYG7NN55P26SEorLJ
+    UplRZvO5T7c80aVFH04X0OixWFy+eR/osQIDAQABo4GmMIGjMA4GA1UdDwEB/wQE
+    AwIFoDAdBgNVHQ4EFgQU2jmj7l5rSw0yVb/vlWAYkK/YBwkwcgYDVR0RBGswaYIf
+    Y29uanVyLWRldi1sZWFkZXIuZ2Nsb3VkMTAxLmNvbYIWY29uanVyMDEuZ2Nsb3Vk
+    MTAxLmNvbYIWY29uanVyMDIuZ2Nsb3VkMTAxLmNvbYIWY29uanVyMDMuZ2Nsb3Vk
+    MTAxLmNvbTANBgkqhkiG9w0BAQsFAAOCAQEAJcy2rromMKcqk1kmHhHE/0coeWjy
+    abwHR9KMwx4QdBC2XXsOOmfrM5E8YHyXEoThYfHe9/K8yLgiQdOxDip3I4NJNbd7
+    Q2hPIj28zXZCXY6UuJHtyX00uzgU69UuP/R2LwBNdpojFWStqH85K6BptWEfRumQ
+    PGqiKi1qOxStEY/t7gwioOs/qdViI8nR1PSPJ+r4LrCFzCf6lurs0p2Lo3f7hwqg
+    VCfuekMizZnxAF2vFmFAyb5sVmErUwjGRtoixd6kbIwOSb5ZqmAkSXWx7pm6gQND
+    WQiZZKCKiOy3XXkmU06Q0P8hJufpKsMSapMDYzKirYwgvZYnpMy01IZAGw==
+    -----END CERTIFICATE-----
+    -----BEGIN CERTIFICATE-----
+    MIIEDzCCAvegAwIBAgIUPLvHj+B6ij6ReZgK9qe+b/cNB5owDQYJKoZIhvcNAQEL
+    BQAwVzEXMBUGA1UECgwOY29uanVyX2FjY291bnQxEjAQBgNVBAsMCUNvbmp1ciBD
+    QTEoMCYGA1UEAwwfY29uanVyLWRldi1sZWFkZXIuZ2Nsb3VkMTAxLmNvbTAeFw0y
+    NTEwMTEwNzEyMDBaFw0zNTEwMDkwNzEyMDBaMFcxFzAVBgNVBAoMDmNvbmp1cl9h
+    Y2NvdW50MRIwEAYDVQQLDAlDb25qdXIgQ0ExKDAmBgNVBAMMH2Nvbmp1ci1kZXYt
+    bGVhZGVyLmdjbG91ZDEwMS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+    AoIBAQCV23oyyAVfb5mqmFjwqcOIKPe8VRk8qHQgAS3lxaMRCyc7hAkI10I5zieR
+    VLUsCdRBtn84OLbt4kp3T2XTH5Fncw/fxVjs60llr0drqmXDz2x3ecXskBQq2NDI
+    /OQGQkN79zknMqOet6hTiMQgbC+vGHxnNL7ERCWfE4q91z6tgOkMBGwHR30Zc+Z+
+    xB4NMn4iAJCf4QG4aoTjOO44tBHZ2pSkt4GiDf3TxWVu99qQTwp7hZJc3QRqZYj0
+    GU/d6J3XtYGfGm/EYsa2E/UDv0Z5AHHYvyBNtU0FbwLW/fxeVR0qII2sGPOrkrJP
+    DikUX48R9owoWxcnHK9AqTMU9FhJAgMBAAGjgdIwgc8wcgYDVR0RBGswaYIfY29u
+    anVyLWRldi1sZWFkZXIuZ2Nsb3VkMTAxLmNvbYIWY29uanVyMDEuZ2Nsb3VkMTAx
+    LmNvbYIWY29uanVyMDIuZ2Nsb3VkMTAxLmNvbYIWY29uanVyMDMuZ2Nsb3VkMTAx
+    LmNvbTAdBgNVHQ4EFgQUHWGcdO2mHssg8CT3RShzCXBngRowHwYDVR0jBBgwFoAU
+    HWGcdO2mHssg8CT3RShzCXBngRowDAYDVR0TBAUwAwEB/zALBgNVHQ8EBAMCAeYw
+    DQYJKoZIhvcNAQELBQADggEBADT4s3TBcKR0myjLmH1Pa/u121e+7ZjCBlIj12a1
+    XMu6/TlktMxNVuDXxuFtEJoFJU5NO2T8ntsFTEF5WeQLy6O+OaE01djiZUvss7Ap
+    FY+mBo5D9RM+C3pDx58hhNs4uF4kO7AzOrKqTv93hlbfcTCf6LWw95ydiwUth9eC
+    3baArdqDX51VrrvvErKYP6tp6wsBipDli2gAIf39mhzymcG9S/4F2p1LDI3Af5WH
+    f40k11vXvTwKMgYksklOCiuipoX+Qq2creN3cCqrgE68Tw47MctdkEw4atjD0QMP
+    C7j8DlLSsDPQyEuxZyzmjm0b7d+yVC65WDFxJJiVnfN0gdo=
+    -----END CERTIFICATE-----
+  CONJUR_AUTHENTICATOR_ID: dev-cluster

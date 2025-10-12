@@ -15,7 +15,7 @@ metadata:
     conjur.org/name: "conjur-rolebinding"
 subjects:
 - kind: ServiceAccount
-  name: conjur-serviceaccount
+  name: test-app-sa
   namespace: test-app-namespace
 roleRef:
   apiGroup: rbac.authorization.k8s.io

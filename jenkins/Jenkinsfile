@@ -3,7 +3,7 @@ pipeline {
 
    environment {
         registry='authnk8s'
-        dockerRegistry='https://dockerhub.gcloud101.com'
+        dockerRegistry='https://registry.gcloud101.com'
         registryCredential='gcdocker'
         dockerhubCredential='gclim_docker'
         appImageName='test-app'

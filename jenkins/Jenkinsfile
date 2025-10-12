@@ -74,7 +74,7 @@ pipeline {
                 steps {
                     script {
                         docker.withRegistry(dockerRegistry, registryCredential) {
-                            def customImage = docker.build(registry + '/' + appImageName + ':' + tag, '-f Dockerfile .)
+                            def customImage = docker.build(registry + '/' + appImageName + ':' + tag, '-f Dockerfile .')
                             /* Push the container to the custom Registry */
                             customImage.push()
                             }

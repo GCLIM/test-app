@@ -18,9 +18,7 @@ spec:
       serviceAccountName: test-app-sa
       containers:
         - name: test-app
-          image: registry.gcloud101.com/my-sample-app
-          ports:
-            - containerPort: 8080
+          image: registry.gcloud101.com/test-app:latest
           envFrom:
           - configMapRef:
               name: conjur-connect

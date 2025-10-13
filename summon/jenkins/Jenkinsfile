@@ -8,7 +8,7 @@ pipeline {
         dockerhubCredential='gclim_docker'
         appImageName='test-app-summon'
         appFolder='summon'
-        tag='002'
+        tag='003'
    }
 
 

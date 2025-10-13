@@ -67,14 +67,8 @@ urlify() {
 
 k8s_secrets_provider_loop() {
   while true; do
-    VAR_VALUE=$(kubectl get secret db-credentials -o jsonpath="{.data.password}" 2>/dev/null | base64 --decode)
-
-    if [ -z "$VAR_VALUE" ]; then
-      echo "$(date '+%Y-%m-%d %H:%M:%S') - Failed to retrieve secret or secret is empty."
-    else
-      echo "$(date '+%Y-%m-%d %H:%M:%S') - Retrieved secret value from K8s secret: $VAR_VALUE"
-    fi
-
+    DB_VALUE="${DB_PASSWORD:-<not set>}"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - Current DB_PASSWORD environment variable: $DB_VALUE"
     sleep 60
   done
 }

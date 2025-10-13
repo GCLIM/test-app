@@ -21,6 +21,8 @@ spec:
           image: registry.gcloud101.com/authnk8s/test-app:005
           imagePullPolicy: Always
           env:
+            - name: DEMO_MODE
+              value: "authn-k8s"
             - name: CONJUR_AUTHN_TOKEN_FILE
               value: /run/conjur/access-token
             - name: VAR_ID

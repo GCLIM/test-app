@@ -1,0 +1,88 @@
+pipeline {
+   agent any
+
+   environment {
+        registry='authnk8s'
+        dockerRegistry='https://registry.gcloud101.com'
+        registryCredential='gcdocker'
+        dockerhubCredential='gclim_docker'
+        appImageName='test-app-summon'
+        tag='001'
+   }
+
+
+   stages {
+
+        stage('Build Phase'){
+            parallel {
+                  stage('Build App') {
+                    steps {
+                        script {
+                            docker.build(registry + '/' + appImageName + ':' + tag, '--no-cache -f Dockerfile .')
+                        }
+                    }
+                  }
+            }
+        }
+
+        stage('Check Vulnerabilities'){
+            parallel{
+                stage('Check App'){
+                        steps{
+                            script{
+                                // Authenticate with Docker using Jenkins credentials
+                                withCredentials([usernamePassword(credentialsId: dockerhubCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                                    sh 'echo $DOCKER_HUB_PAT | docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+                                }
+
+                                sh "docker-scout cves $registry/$appImageName:$tag"
+
+                                // Run Docker Security Scan using Docker Scan
+                                def scanResult = sh(script: 'docker-scout cves $registry/$appImageName:$tag --only-severity critical,high', returnStatus: true)
+
+                                // Check the scan results
+                                if (scanResult != 0) {
+                                    // Docker scan reported critical vulnerabilities
+                                    error 'Critical vulnerabilities found in the Docker image. Aborting the build.'
+                                }
+                            }
+                        }
+                }
+            }
+        }
+
+        // stage('Test Phase'){
+        //     parallel {
+        //           stage('Test WebApp'){
+        //                 steps {
+        //                     script {
+        //                         sh "docker run --rm $registry/webapp:$tag /bin/sh -c 'ls -R'"
+        //                     }
+        //                 }
+        //           }
+        //           stage('Test Keibajob'){
+        //                 steps {
+        //                     script {
+        //                         sh "docker run --rm $registry/keibajob:$tag"
+        //                     }
+        //                 }
+        //           }
+        //     }
+        // }
+
+        stage('Deploy App'){
+                steps {
+                    script {
+                        docker.withRegistry(dockerRegistry, registryCredential) {
+                            def customImage = docker.build(registry + '/' + appImageName + ':' + tag, '-f Dockerfile .')
+                            /* Push the container to the custom Registry */
+                            customImage.push()
+                            }
+                    }
+                }
+
+        }
+
+   }
+
+}

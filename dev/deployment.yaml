@@ -25,7 +25,7 @@ spec:
               value: "authn-k8s"
             - name: CONJUR_AUTHN_TOKEN_FILE
               value: /run/conjur/access-token
-            - name: VAR_ID
+            - name: VARIABLE_ID
               value: secrets/test-variable
           envFrom:
           - configMapRef:

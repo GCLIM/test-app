@@ -37,7 +37,7 @@ k8s_authn_loop() {
     fi
 
     # URL-encode the variable ID
-    urlify "$VAR_ID"
+    urlify "$VARIABLE_ID"
     VAR_ID_ENCODED="$URLIFIED"
 
     # Retrieve secret value
@@ -79,8 +79,10 @@ case "$DEMO_MODE" in
   authn-k8s)
     echo "Demo Mode: Conjur Kubernetes Authenticator"
     echo ""
-    echo "The Conjur Kubernetes Authenticator obtains an access token from Conjur every minute."
+    echo "The Conjur Kubernetes Authenticator obtains a short-lived access token from Conjur."
+    echo "This token is stored using shared memory volume specified by CONJUR_AUTHN_TOKEN_FILE."
     echo "In this demo, the application reads the token and uses it to authenticate with Conjur to retrieve a secret."
+    echo "The variable ID to retrieve is specified by VARIABLE_ID environment variable."
     echo ""
     k8s_authn_loop
     ;;

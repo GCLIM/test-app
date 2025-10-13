@@ -77,17 +77,19 @@ k8s_secrets_provider_loop() {
 
 case "$DEMO_MODE" in
   authn-k8s)
-    echo "Demo Mode: Conjur K8s Authenticator"
-    echo
-    echo "This demo app will query for Conjur access token every 1 minute and fetch the secret value."
-    echo
+    echo "Demo Mode: Conjur Kubernetes Authenticator"
+    echo ""
+    echo "The Conjur Kubernetes Authenticator obtains an access token from Conjur every minute."
+    echo "In this demo, the application reads the token and uses it to authenticate with Conjur to retrieve a secret."
+    echo ""
     k8s_authn_loop
     ;;
   secrets-provider-k8s)
-    echo "Demo Mode: Conjur Secrets Provider for K8s"
-    echo
-    echo "This demo app will query K8s secrets every 1 minute and fetch the secret value."
-    echo
+    echo "Demo Mode: Conjur Secrets Provider for Kubernetes"
+    echo ""
+    echo "The Conjur Secrets Provider for Kubernetes retrieves secrets from Conjur and updates them in a Kubernetes Secret."
+    echo "In this demo, the application starts and consumes the secret as the environment variable: DB_PASSWORD."
+    echo ""
     k8s_secrets_provider_loop
     ;;
   *)

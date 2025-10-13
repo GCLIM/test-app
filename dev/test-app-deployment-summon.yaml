@@ -18,7 +18,7 @@ spec:
       serviceAccountName: test-app-sa
       containers:
         - name: test-app-summon
-          image: registry.gcloud101.com/authnk8s/test-app-summon:001
+          image: registry.gcloud101.com/authnk8s/test-app-summon:002
           imagePullPolicy: Always
           env:
             - name: DEMO_MODE

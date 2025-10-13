@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: test-app-summon
+  name: test-app-summon
+  namespace: test-app-namespace
+spec:
+  selector:
+    matchLabels:
+      app: test-app-summon
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: test-app-summon
+    spec:
+      serviceAccountName: test-app-sa
+      containers:
+        - name: test-app-summon
+          image: registry.gcloud101.com/authnk8s/test-app-summon:001
+          imagePullPolicy: Always
+          env:
+            - name: DEMO_MODE
+              value: "authn-k8s-summon"
+            - name: CONJUR_AUTHN_TOKEN_FILE
+              value: /run/conjur/access-token
+            # - name: VARIABLE_ID
+            #   value: secrets/test-variable
+          envFrom:
+          - configMapRef:
+              name: conjur-connect
+          volumeMounts:
+          - mountPath: /run/conjur
+            name: access-token
+            readOnly: true
+      initContainers:
+        - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client:latest
+          imagePullPolicy: Always
+          name: authenticator
+          env:
+            - name: CONJUR_AUTHN_LOGIN
+              value: host/apps/authn-k8s/test-app
+            - name: CONTAINER_MODE
+              value: init
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          envFrom:
+            - configMapRef:
+                name: conjur-connect
+          volumeMounts:
+            - mountPath: /run/conjur
+              name: access-token
+      imagePullSecrets:
+        - name: gcloud101cred
+      volumes:
+        - name: access-token
+          emptyDir:
+            medium: Memory

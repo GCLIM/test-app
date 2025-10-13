@@ -9,7 +9,7 @@ SLEEP_INTERVAL=1
 PREV_TOKEN=""
 FIRST_READ=true
 
-main_loop() {
+k8s_authn_loop() {
   while true; do
     # Wait until token file exists
     local waited=0
@@ -65,4 +65,42 @@ urlify() {
   URLIFIED=$str
 }
 
-main_loop
+k8s_secrets_provider_loop() {
+  while true; do
+    VAR_VALUE=$(kubectl get secret db-credentials -o jsonpath="{.data.password}" 2>/dev/null | base64 --decode)
+
+    if [ -z "$VAR_VALUE" ]; then
+      echo "$(date '+%Y-%m-%d %H:%M:%S') - Failed to retrieve secret or secret is empty."
+    else
+      echo "$(date '+%Y-%m-%d %H:%M:%S') - Retrieved secret value from K8s secret: $VAR_VALUE"
+    fi
+
+    sleep 60
+  done
+}
+
+# Main script execution starts here
+
+case "$DEMO_MODE" in
+  authn-k8s)
+    echo "Demo Mode: Conjur K8s Authenticator"
+    echo
+    echo "This demo app will query for Conjur access token every 1 minute and fetch the secret value."
+    echo
+    k8s_authn_loop
+    ;;
+  secrets-provider-k8s)
+    echo "Demo Mode: Conjur Secrets Provider for K8s"
+    echo
+    echo "This demo app will query K8s secrets every 1 minute and fetch the secret value."
+    echo
+    k8s_secrets_provider_loop
+    ;;
+  *)
+    echo "Error: Unknown DEMO_MODE '$DEMO_MODE'."
+    echo "Valid options: authn-k8s | secrets-provider-k8s"
+    exit 1
+    ;;
+esac
+
+# End of script

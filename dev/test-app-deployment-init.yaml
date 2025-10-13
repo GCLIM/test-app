@@ -41,6 +41,8 @@ spec:
           env:
             - name: CONJUR_AUTHN_LOGIN
               value: host/apps/authn-k8s/test-app
+            - name: CONTAINER_MODE
+              value: init
             - name: MY_POD_NAME
               valueFrom:
                 fieldRef:

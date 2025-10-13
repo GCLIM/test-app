@@ -19,7 +19,7 @@ pipeline {
                   stage('Build App') {
                     steps {
                         script {
-                            docker.build(registry + '/' + appImageName + ':' + tag, '--no-cache -f Dockerfile ' + appFolder + '.')
+                            docker.build(registry + '/' + appImageName + ':' + tag, '--no-cache -f ' + appFolder + '/Dockerfile .')
                         }
                     }
                   }
@@ -75,7 +75,7 @@ pipeline {
                 steps {
                     script {
                         docker.withRegistry(dockerRegistry, registryCredential) {
-                            def customImage = docker.build(registry + '/' + appImageName + ':' + tag, '-f Dockerfile ' + appFolder + '.')
+                            def customImage = docker.build(registry + '/' + appImageName + ':' + tag, '-f ' + appFolder + '/Dockerfile .')
                             /* Push the container to the custom Registry */
                             customImage.push()
                             }

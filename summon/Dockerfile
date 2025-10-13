@@ -25,7 +25,7 @@ COPY --from=builder /usr/local/lib/summon /usr/local/lib/summon
 COPY --from=builder /usr/local/bin/summon /usr/local/bin/summon
 
 # Copy secrets file and script
-COPY secrets.yml /etc/secrets.yml
+COPY summon/secrets.yml /etc/secrets.yml
 COPY retrieve_conjur_secret.sh /app/retrieve_conjur_secret.sh
 WORKDIR /app
 

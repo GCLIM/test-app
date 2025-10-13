@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: test-app
-  name: test-app
+    app: test-app-sidecar
+  name: test-app-sidecar
   namespace: test-app-namespace
 spec:
   selector:
     matchLabels:
-      app: test-app
+      app: test-app-sidecar
   replicas: 1
   template:
     metadata:
       labels:
-        app: test-app
+        app: test-app-sidecar
     spec:
       serviceAccountName: test-app-sa
       containers:
-        - name: test-app
+        - name: test-app-sidecar
           image: registry.gcloud101.com/authnk8s/test-app:009
           imagePullPolicy: Always
           env:

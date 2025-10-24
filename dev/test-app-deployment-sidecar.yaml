@@ -60,9 +60,14 @@ spec:
           volumeMounts:
             - mountPath: /run/conjur
               name: access-token
+            - name: client-ssl
+              mountPath: /etc/conjur/ssl
       imagePullSecrets:
         - name: gcloud101cred
       volumes:
         - name: access-token
+          emptyDir:
+            medium: Memory
+        - name: client-ssl
           emptyDir:
             medium: Memory

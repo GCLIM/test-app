@@ -20,6 +20,8 @@ spec:
         runAsGroup: 1001
         # runAsNonRoot: true
         runAsUser: 1001
+        supplementalGroups:
+          - 1001
       serviceAccountName: test-app-sa
       containers:
         - name: test-app-sidecar

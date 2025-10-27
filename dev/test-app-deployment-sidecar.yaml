@@ -18,13 +18,17 @@ spec:
       securityContext:
         fsGroup: 1001
         runAsGroup: 1001
-        # runAsNonRoot: true
+        runAsNonRoot: true
         runAsUser: 1001
         supplementalGroups:
           - 1001
       serviceAccountName: test-app-sa
       containers:
         - name: test-app-sidecar
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            privileged: false 
           image: registry.gcloud101.com/authnk8s/test-app:009
           imagePullPolicy: Always
           env:
@@ -43,6 +47,10 @@ spec:
             readOnly: true
 
         - image: registry.gcloud101.com/cyberark/conjur-authn-k8s-client:latest
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            privileged: false 
           imagePullPolicy: Always
           name: authenticator
           env:

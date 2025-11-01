@@ -7,7 +7,7 @@ pipeline {
         registryCredential='gcdocker'
         dockerhubCredential='gclim_docker'
         appImageName='test-app'
-        tag='009'
+        tag='010'
    }
 
 
